@@ -1,0 +1,89 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Vector {
+public:
+    double x, y, z;
+
+    Vector() {
+        x = 0;
+        y = 0;
+        z = 0;
+    }
+
+    Vector(double x, double y, double z) {
+        this->x = x;
+        this->y = y;
+        this->z = z;
+    }
+
+    double length() {
+        return sqrt(x * x + y * y + z * z);
+    }
+
+    double angle(Vector other) {
+        double dotProduct = x * other.x + y * other.y + z * other.z;
+        double lengths = length() * other.length();
+        return acos(dotProduct / lengths) * 180.0 / 3.14159265;
+    }
+
+    Vector operator+(Vector other) {
+        return Vector(x + other.x, y + other.y, z + other.z);
+    }
+
+    Vector operator-(Vector other) {
+        return Vector(x - other.x, y - other.y, z - other.z);
+    }
+
+    bool isParallel(Vector other) {
+        return (x / other.x == y / other.y == z / other.z);
+    }
+
+    Vector crossProduct(Vector other) {
+        return Vector(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
+    }
+
+    void print() {
+        cout << "(" << x << ", " << y << ", " << z << ")" << endl;
+    }
+};
+
+int main() {
+    // Генерация случайных координат
+    srand(time(0));
+    double a, b, c, d, e, f;
+    a = double(rand()) / RAND_MAX;
+    b = double(rand()) / RAND_MAX;
+    c = double(rand()) / RAND_MAX;
+    d = double(rand()) / RAND_MAX;
+    e = double(rand()) / RAND_MAX;
+    f = double(rand()) / RAND_MAX;
+
+    // Векторы
+    Vector v1(a, b, c);
+    Vector v2(d, e, f);
+
+    // Длины векторов
+    cout << "Длина v1: " << v1.length() << endl;
+    cout << "Длина v2: " << v2.length() << endl;
+
+    // Угол между векторами
+    cout << "Угол между v1 и v2: " << v1.angle(v2) << " градусов" << endl;
+
+    // Сумма и разность векторов
+    Vector v3 = v1 + v2;
+    Vector v4 = v1 - v2;
+    cout << "Сумма v1 и v2: "; v3.print();
+    cout << "Разность v1 и v2: "; v4.print();
+
+    // Параллельность векторов
+    cout << (v1.isParallel(v2) ? "Векторы параллельны" : "Векторы не параллельны") << endl;
+
+    // Векторное произведение
+    Vector v5 = v1.crossProduct(v2);
+    cout << "Векторное произведение v1 и v2: "; v5.print();
+
+    return 0;
+}
