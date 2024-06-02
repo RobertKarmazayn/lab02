@@ -1,0 +1,37 @@
+import math
+import random
+
+# Генерируем случайные параметры эллипса
+h = random.uniform(-10, 10)  # координата x центра
+k = random.uniform(-10, 10)  # координата y центра
+a = random.uniform(1, 10)    # длина полуоси a
+b = random.uniform(1, 10)    # длина полуоси b
+
+# Генерируем случайные координаты точки
+x_point = random.uniform(-15, 15)
+y_point = random.uniform(-15, 15)
+
+# Проверяем принадлежность точки к эллипсу
+is_inside = ((x_point - h)*2 / a*2 + (y_point - k)*2 / b*2) <= 1
+
+# Находим координаты фокусов
+c = math.sqrt(a*2 - b*2)  # расстояние от центра до фокусов
+focus1_x = h + c
+focus1_y = k
+focus2_x = h - c
+focus2_y = k
+
+# Находим эксцентриситет
+eccentricity = c / a
+
+# Находим расстояние от директрис эллипса до его центра
+distance_to_directrix = abs(a / eccentricity)
+
+# Выводим результаты
+print("Центр эллипса:", (h, k))
+print("Длины полуосей:", a, "и", b)
+print("Координаты точки:", (x_point, y_point))
+print("Принадлежит ли точка эллипсу:", is_inside)
+print("Координаты фокусов:", (focus1_x, focus1_y), "и", (focus2_x, focus2_y))
+print("Эксцентриситет:", eccentricity)
+print("Расстояние от директрис эллипса до его центра:", distance_to_directrix)
