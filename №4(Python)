@@ -1,0 +1,69 @@
+import numpy as np
+import random
+
+# Генерируем случайные параметры для двуполостного гиперболоида
+a = random.uniform(1, 5)
+b = random.uniform(1, 5)
+c = random.uniform(1, 5)
+h = random.uniform(-5, 5)
+k = random.uniform(-5, 5)
+l = random.uniform(-5, 5)
+
+# Уравнение двуполостного гиперболоида: -(x-h)^2/a^2 - (y-k)^2/b^2 + (z-l)^2/c^2 = 1
+
+# Генерируем случайные параметры для плоскости
+A_plane = random.uniform(-5, 5)
+B_plane = random.uniform(-5, 5)
+C_plane = random.uniform(-5, 5)
+D_plane = random.uniform(-5, 5)
+
+# Уравнение плоскости: A_plane*x + B_plane*y + C_plane*z + D_plane = 0
+
+# Генерируем случайные параметры для прямой
+x0_line = random.uniform(-5, 5)
+y0_line = random.uniform(-5, 5)
+z0_line = random.uniform(-5, 5)
+m_line = random.uniform(-5, 5)
+n_line = random.uniform(-5, 5)
+p_line = random.uniform(-5, 5)
+
+# Уравнения прямой: x = x0_line + m_line*t, y = y0_line + n_line*t, z = z0_line + p_line*t
+
+# Генерируем случайные координаты точки
+x_point = random.uniform(-10, 10)
+y_point = random.uniform(-10, 10)
+z_point = random.uniform(-10, 10)
+
+# Функция для проверки пересечения плоскости и двуполостного гиперболоида
+def intersects_plane(A, B, C, D, a, b, c, h, k, l):
+  # Подставляем уравнение плоскости в уравнение двуполостного гиперболоида
+  # и проверяем, есть ли решение
+  coeffs = [-A*2/a*2 - B*2/b*2 + C*2/c*2, 
+            -2*A*h/a*2 - 2*B*k/b*2 + 2*C*l/c*2,
+            h*2/a*2 + k*2/b*2 - l*2/c*2 - 1 + (A*h + B*k + C*l + D)*2]
+  roots = np.roots(coeffs)
+  return np.isreal(roots).any()
+
+# Функция для проверки пересечения прямой и двуполостного гиперболоида
+def intersects_line(x0, y0, z0, m, n, p, a, b, c, h, k, l):
+  # Подставляем уравнения прямой в уравнение двуполостного гиперболоида
+  # и проверяем, есть ли решение
+  coeffs = [-(m*2/a*2) - (n*2/b*2) + (p*2/c*2),
+            -2*m*(x0-h)/a*2 - 2*n*(y0-k)/b*2 + 2*p*(z0-l)/c*2,
+            -((x0-h)*2/a*2) - ((y0-k)*2/b*2) + ((z0-l)*2/c*2) - 1]
+  roots = np.roots(coeffs)
+  return np.isreal(roots).any()
+
+# Функция для проверки принадлежности точки двуполостному гиперболоиду
+def belongs_point(x, y, z, a, b, c, h, k, l):
+  return -((x-h)*2/a*2) - ((y-k)*2/b*2) + ((z-l)*2/c*2) == 1
+
+# Проверка пересечений и принадлежности
+intersects_plane_result = intersects_plane(A_plane, B_plane, C_plane, D_plane, a, b, c, h, k, l)
+intersects_line_result = intersects_line(x0_line, y0_line, z0_line, m_line, n_line, p_line, a, b, c, h, k, l)
+belongs_point_result = belongs_point(x_point, y_point, z_point, a, b, c, h, k, l)
+
+# Вывод результатов
+print(f"Пересекает ли плоскость двуполостный гиперболоид: {intersects_plane_result}")
+print(f"Пересекает ли прямая двуполостный гиперболоид: {intersects_line_result}")
+print(f"Принадлежит ли точка двуполостному гиперболоиду: {belongs_point_result}")
